@@ -20,8 +20,11 @@ const getSubById = async (id) => {
 
 const createSub = async (newData) => {
     try {
-        await axios.post('http://localhost:8000/sub/subscriptions', newData);
-        return "Created!";
+        const { data } = await axios.post('http://localhost:8000/sub/subscriptions', newData);
+        return {
+            status: "Created",
+            ...data
+        }
     } catch (err) {
         throw new Error('Failed to create subscription: ' + err.message);
     }

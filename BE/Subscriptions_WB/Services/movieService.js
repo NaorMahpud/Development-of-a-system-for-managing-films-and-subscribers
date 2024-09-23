@@ -14,7 +14,10 @@ const getMovieById = async (id) => {
 const createMovie = async (newOne) => {
     const newMovie = new movieModel(newOne)
     await newMovie.save()
-    return "Created"
+    return {
+        status: "Successfully Created",
+        ...newMovie
+    }
 }
 
 const updateMovie = async (id, updatedOne) => {

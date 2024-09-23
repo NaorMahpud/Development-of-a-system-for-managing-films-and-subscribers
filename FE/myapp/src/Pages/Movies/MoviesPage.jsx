@@ -38,7 +38,6 @@ export default function MoviesPage() {
             <div style={{ padding: "0px", margin: "20px" }}>
                 <Link to={'/menu/movies/allmovies'}><Button style={getButtonStyle(1)} onClick={() => handleClick(1)}>All Movies</Button></Link>
                 <Link to={'/menu/movies/addmovie'}><Button style={getButtonStyle(2)} onClick={() => handleClick(2)}>Add Movie</Button></Link>
-                <Button style={{ margin: "10px 300px" }}>Save All Changes</Button>
 
                 <Outlet />
             </div>

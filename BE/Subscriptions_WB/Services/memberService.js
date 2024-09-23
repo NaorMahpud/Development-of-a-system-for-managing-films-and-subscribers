@@ -14,11 +14,14 @@ const getMemberById = async (id) => {
 const createMember = async (newOne) => {
     const newMember = new memberModel(newOne)
     await newMember.save()
-    return "Created"
+    return {
+        status: "Successfully Created",
+        ...newMember
+    }
 }
 
 const updateMember = async (id, updatedOne) => {
-    await memberModel.findByIdAndUpdate(id, updatedOne)
+    await memberModel.findByIdAndUpdate(id, updatedOne, { new: true })
     return "Updated"
 }
 

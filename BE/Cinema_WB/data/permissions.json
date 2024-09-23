@@ -16,14 +16,8 @@
       ]
     },
     {
-      "id": "66eec09125160bd5958142cc",
-      "permissions": [
-        "View Subscriptions",
-        "Update Subscriptions",
-        "Create Subscriptions",
-        "View Movies",
-        "Create Movies"
-      ]
+      "id": "66f127422cab77a043ff93f4",
+      "permissions": []
     }
   ]
 }

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { getAllUsers } from './Services/UserService'
 import { useDispatch, useSelector } from 'react-redux'
+import { getAllUsers } from './Services/UserService'
 import { getAllMovies } from './Services/MoviesService'
+import { saveToServer } from './Services/SaveToServer'
+import { checkToken } from './Services/CheckToken'
 
 const Button = styled.button`
     background-color: #45a049; 
@@ -12,74 +14,50 @@ const Button = styled.button`
     font-size: 20px;
     cursor: pointer;
     border-radius: 5px;
-
+    &:hover {
+      background-color: orange;
+    }
   `;
 
 export default function MenuPage() {
     const [activeButton, setActiveButton] = useState(null)
+    const store = useSelector((store) => store)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const users = useSelector((store) => store.users)
     const token = sessionStorage.getItem('token')
 
-    useEffect(() => {
-        const handleBeforeNavigate = () => {
-            saveToServer(users)
-        }
-        window.addEventListener('beforeunload', handleBeforeNavigate);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeNavigate);
-        };
-    }, [users])
-
-    const saveToServer = async (users) => {
-        try {
-            for (const user of users) {
-                if (user.status === "NEW") {
-                    delete user.status
-                    const createResp = await createUser(token, user)
-                    if (createResp.error) return console.error(createResp.error)
-                    continue
-
-                } else if (user.status === "UPDATED") {
-                    delete user.status
-                    const updateResp = await updateUser(token, user._id, user)
-                    if (updateResp.error) return console.error(updateResp.error)
-                    continue
-
-                } else if (user.status === "DELETED") {
-                    delete user.status
-                    const deleteResp = await deleteUser(token, user._id)
-                    if (deleteResp.error) return console.error(deleteResp.error)
-                    continue
-                }
-            }
-            dispatch({ type: "LOAD_DATA", payload: store })
-            alert("Successfully Saved All Changes!!")
-        } catch (error) {
-            return console.error(error)
-        }
-    }
-
     const fetchData = async () => {
-        const users = await getAllUsers(token)
-        const movies = await getAllMovies(token)
-        if (movies.error) return alert(movies.error)
-        if (users.error) return alert(users.error)
-        dispatch({ type: "LOAD_DATA", payload: { users, movies } })
+        const validation = await checkToken(token)
+        if (validation !== "valid") {
+            alert('invalid token')
+            navigate('/')
+        }
+        try {
+            const users = await getAllUsers(token)
+            const movies = await getAllMovies(token)
+            dispatch({ type: "LOAD_DATA", payload: { users, movies } })
+        } catch (error) {
+            return console.log(error)
+        }
 
     }
-    const logOut = () => {
-        sessionStorage.clear()
+    const save = () => {
+        console.log(store)
     }
-
     useEffect(() => {
         fetchData()
     }, [])
 
-
-    const handleButtonClick = (buttonIndex) => {
-        setActiveButton(buttonIndex)
+    const logOut = async () => {
+        await saveToServer(token, store)
+        sessionStorage.clear()
+        navigate('/')
     }
+    const handleNavigation = async (path, buttonIndex) => {
+        setActiveButton(buttonIndex)
+        navigate(path)
+    }
+
     const getButtonStyle = (buttonIndex) => {
         return { backgroundColor: activeButton == buttonIndex ? 'yellow' : 'white' }
     }
@@ -89,10 +67,12 @@ export default function MenuPage() {
             <h1 style={{ paddingRight: "160px", fontFamily: "Ariel", justifyContent: "center", display: "flex", color: "blue" }}>Hello {sessionStorage.getItem('fullName')}</h1>
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
 
-                <Link to={'./movies/allmovies'}><Button style={getButtonStyle(1)} onClick={() => handleButtonClick(1)}>Movies</Button></Link>
-                <Link to={'./subscriptions'}><Button style={getButtonStyle(2)} onClick={() => handleButtonClick(2)}>Subscriptions</Button></Link>
-                <Link to={'./users/allusers'}><Button style={getButtonStyle(3)} onClick={() => handleButtonClick(3)}>Users Management</Button></Link>
-                <Link to={'/'}><Button onClick={logOut}>Log Out</Button></Link>
+                <Link to={'./movies/allmovies'}><Button style={getButtonStyle(1)} onClick={() => handleNavigation('./movies/allmovies', 1)}>Movies</Button></Link>
+                <Link to={'./subscriptions'}><Button style={getButtonStyle(2)} onClick={() => handleNavigation('./subscriptions', 2)}>Subscriptions</Button></Link>
+                <Link to={'./users/allusers'}><Button style={getButtonStyle(3)} onClick={() => handleNavigation('./users/allusers', 3)}>Users Management</Button></Link>
+                <Button onClick={() => saveToServer(token, store)}>Save All Changes</Button>
+                <Button onClick={save}>Print</Button>
+                <Button onClick={logOut}>Log Out</Button>
             </div> <br />
 
             <div style={{ border: "2px solid red" }}><Outlet /></div>

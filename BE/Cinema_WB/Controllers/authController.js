@@ -54,4 +54,8 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Login failed: ' + err.message });
     }
 })
+
+router.get('/checkToken', authToken, (req, res) => {
+    return res.json("validToken")
+})  
 module.exports = router;

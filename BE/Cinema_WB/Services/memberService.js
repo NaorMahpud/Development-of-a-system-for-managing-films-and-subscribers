@@ -20,8 +20,11 @@ const getMemberById = async (id) => {
 
 const createMember = async (newData) => {
     try {
-        await axios.post('http://localhost:8000/sub/members', newData);
-        return "Created!";
+        const { data } = await axios.post('http://localhost:8000/sub/members', newData);
+        return {
+            status: "Created!",
+            ...data
+        };
     } catch (err) {
         throw new Error('Failed to create member: ' + err.message);
     }

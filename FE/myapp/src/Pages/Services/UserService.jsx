@@ -27,9 +27,10 @@ const createUser = async (token, userData) => {
     }
 }
 
-const updateUser = async (token, id, userData) => {
+const updateUser = async (token, userData) => {
+    const { _id } = userData
     try {
-        const { data } = await axios.put(`http://localhost:7000/cinema/users/${id}`, userData, {
+        const { data } = await axios.put(`http://localhost:7000/cinema/users/${_id}`, userData, {
             headers: {
                 Authorization: `${token}`
             }

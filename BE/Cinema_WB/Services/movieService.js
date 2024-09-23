@@ -20,8 +20,11 @@ const getMovieById = async (id) => {
 
 const createMovie = async (newData) => {
     try {
-        await axios.post('http://localhost:8000/sub/movies', newData);
-        return "Created!";
+        const { data } = await axios.post('http://localhost:8000/sub/movies', newData);
+        return {
+            status: "Created",
+            ...data
+        };
     } catch (err) {
         throw new Error('Failed to create movie: ' + err.message);
     }

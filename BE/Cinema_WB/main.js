@@ -32,5 +32,5 @@ app.use('/admin', authToken, authAdmin, (req, res) => {
 })
 
 app.listen((port = 7000), () => {
-    console.log(`Server is running at http//:localhost:${port}`)
+    console.log(`Server is running at http://localhost:${port}`)
 })

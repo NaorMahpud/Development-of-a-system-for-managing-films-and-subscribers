@@ -1,8 +1,8 @@
 const express = require('express')
-const route = express.Router()
+const router = express.Router()
 const subService = require("../Services/subscriptionService")
 
-route.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const subs = await subService.getAllSubs()
         return res.json(subs)
@@ -11,7 +11,7 @@ route.get('/', async (req, res) => {
     }
 })
 
-route.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const sub = await subService.getSubById(req.params.id)
         return res.json(sub)
@@ -20,7 +20,7 @@ route.get('/:id', async (req, res) => {
     }
 })
 
-route.post('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const status = await subService.createSub(req.body)
         return res.json(status)
@@ -29,7 +29,7 @@ route.post('/', async (req, res) => {
     }
 })
 
-route.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params
         const status = await subService.updateSub(id, req.body)
@@ -39,7 +39,7 @@ route.put('/:id', async (req, res) => {
     }
 })
 
-route.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const status = await subService.deleteSub(req.params.id)
         return res.json(status)
@@ -48,4 +48,4 @@ route.delete('/:id', async (req, res) => {
     }
 })
 
-module.exports = route
+module.exports = router
