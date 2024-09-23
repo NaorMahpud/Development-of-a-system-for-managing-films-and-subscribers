@@ -1,0 +1,29 @@
+{
+  "permissions": [
+    {
+      "id": "66e76844440c8a05d8f0bf59",
+      "permissions": [
+        "View Subscriptions",
+        "Create Subscriptions"
+      ]
+    },
+    {
+      "id": "66ec00dc10f9b35b7a5b4778",
+      "permissions": [
+        "View Subscriptions",
+        "Create Subscriptions",
+        "Delete Subscriptions"
+      ]
+    },
+    {
+      "id": "66eec09125160bd5958142cc",
+      "permissions": [
+        "View Subscriptions",
+        "Update Subscriptions",
+        "Create Subscriptions",
+        "View Movies",
+        "Create Movies"
+      ]
+    }
+  ]
+}

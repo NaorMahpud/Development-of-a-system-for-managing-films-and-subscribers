@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "66e76844440c8a05d8f0bf59",
+      "firstName": "Naor",
+      "lastName": "mah",
+      "createdDate": "27-7-2023",
+      "sessionTimeOut": 1000
+    },
+    {
+      "id": "66ec00dc10f9b35b7a5b4778",
+      "firstName": "ofek",
+      "lastName": "mah",
+      "createdDate": "27-5-2023",
+      "sessionTimeOut": 300
+    },
+    {
+      "id": "66eec09125160bd5958142cc",
+      "firstName": "Yossi",
+      "lastName": "MAhpud",
+      "createdDate": "2024-09-21",
+      "sessionTimeOut": 111
+    }
+  ]
+}
