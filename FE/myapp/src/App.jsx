@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import LoginPage from "./Pages/LoginPage"
 import CreateAccPage from "./Pages/CreateAccPage"
 import MenuPage from "./Pages/MenuPage"
-import UserPage from "./Pages/Users/UserPage"
-import SubscriptionsPage from "./Pages/SubscriptionsPage"
+import AllUserPage from "./Pages/Users/AllUserPage"
 import AddUserPage from "./Pages/Users/AddUserPage"
 import ManageUserPage from "./Pages/Users/ManageUserPage"
 import EditUser from "./Pages/Users/EditUser"
@@ -12,11 +11,16 @@ import MoviesPage from "./Pages/Movies/MoviesPage"
 import AllMovies from "./Pages/Movies/AllMoviesPage"
 import AddMoviePage from "./Pages/Movies/AddMoviePage"
 import Editmovie from "./Pages/Movies/Editmovie"
+import SubscriptionsPage from "./Pages/Subscriptions/SubscriptionsPage"
+import AllMemberPage from "./Pages/Subscriptions/AllMemberPage"
+import AddMemberPage from "./Pages/Subscriptions/AddMemberPage"
+import ExamplePage from "./Pages/Example"
+import EditMember from "./Pages/Subscriptions/EditMember"
+
 
 
 
 function App() {
-
 
   return (
     <div style={{ border: "4px solid black" }}>
@@ -29,7 +33,7 @@ function App() {
           <Route path="/menu" element={<MenuPage />}>
 
             <Route path="users" element={<ManageUserPage />}>
-              <Route path="allusers" element={<UserPage />} />
+              <Route path="allusers" element={<AllUserPage />} />
               <Route path="adduser" element={<AddUserPage />} />
               <Route path="edituser" >
                 <Route path=":id" element={<EditUser />} />
@@ -44,7 +48,13 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="subscriptions" element={<SubscriptionsPage />} />
+            <Route path="subscriptions" element={<SubscriptionsPage />} >
+              <Route path="allmembers" element={<AllMemberPage />} />
+              <Route path="addmember" element={<AddMemberPage />} />
+              <Route path="editmember">
+                <Route path=":id" element={<EditMember />} />
+              </Route>
+            </Route>
           </Route>
         </Routes>
       </Router>

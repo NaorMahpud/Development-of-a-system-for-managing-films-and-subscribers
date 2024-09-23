@@ -1,6 +1,7 @@
 const initialState = {
     users: [],
     movies: [],
+    members: [],
     subscriptions: []
 };
 
@@ -12,6 +13,7 @@ export default function appReducer(store = initialState, action) {
                 ...store,
                 users: action.payload.users || [],
                 movies: action.payload.movies || [],
+                members: action.payload.members || [],
                 subscriptions: action.payload.subscriptions || []
             }
         case "ADD_USER":
@@ -69,6 +71,33 @@ export default function appReducer(store = initialState, action) {
                 movies: store.movies.map(movie => movie._id === action.payload._id ? { ...action.payload, status: "DELETED" } : movie)
             }
 
+        case "ADD_MEMBER":
+            return {
+                ...store,
+                members: [...store.members, { ...action.payload, status: 'NEW' }]
+            }
+        case "UPDATE_MEMBER":
+            const members = store.members.map(member => {
+                if (member._id === action.payload._id) {
+                    return (member.status === "NEW" ? { ...action.payload, status: "NEW" } : { ...action.payload, status: "UPDATED" })
+                }
+                return member
+            })
+            return {
+                ...store,
+                members
+            }
+        case "DELETE_MEMBER":
+            if (action.payload.status === "NEW") {
+                return {
+                    ...store,
+                    members: store.members.filter(member => member._id !== action.payload._id)
+                }
+            }
+            return {
+                ...store,
+                members: store.members.map(member => member._id === action.payload._id ? { ...action.payload, status: "DELETED" } : member)
+            }
         default:
             return store
     }

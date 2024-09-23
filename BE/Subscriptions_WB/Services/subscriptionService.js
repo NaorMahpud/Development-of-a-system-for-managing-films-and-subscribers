@@ -11,7 +11,7 @@ const getSubById = async (id) => {
 }
 
 const createSub = async (newOne) => {
-    const newSub = new subscriptionModel(newOne, {new: true})
+    const newSub = new subscriptionModel(newOne)
     await newSub.save()
     return {
         status: "Successfully Created",

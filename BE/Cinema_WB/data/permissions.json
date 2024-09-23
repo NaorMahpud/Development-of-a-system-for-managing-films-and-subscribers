@@ -16,8 +16,11 @@
       ]
     },
     {
-      "id": "66f127422cab77a043ff93f4",
-      "permissions": []
+      "id": "66f17d7c155c7162ee5b0d57",
+      "permissions": [
+        "View Subscriptions",
+        "Create Subscriptions"
+      ]
     }
   ]
 }

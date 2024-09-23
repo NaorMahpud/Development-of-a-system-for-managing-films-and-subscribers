@@ -38,7 +38,7 @@ const UsersContainer = styled.div`
     justify-content: evenly; 
   `;
 
-export default function UserPage() {
+export default function AllUserPage() {
     const [searchTerm, setSearchTerm] = useState('')
 
     const allUsers = useSelector((store) => store.users).filter((user) => !user.status || (user.status !== "DELETED"))

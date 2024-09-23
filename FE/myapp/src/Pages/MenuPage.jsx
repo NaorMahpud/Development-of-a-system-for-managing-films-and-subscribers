@@ -6,6 +6,8 @@ import { getAllUsers } from './Services/UserService'
 import { getAllMovies } from './Services/MoviesService'
 import { saveToServer } from './Services/SaveToServer'
 import { checkToken } from './Services/CheckToken'
+import { getAllMembers } from './Services/MemberService'
+import { getAllSub } from './Services/SubscriptionService'
 
 const Button = styled.button`
     background-color: #45a049; 
@@ -35,7 +37,9 @@ export default function MenuPage() {
         try {
             const users = await getAllUsers(token)
             const movies = await getAllMovies(token)
-            dispatch({ type: "LOAD_DATA", payload: { users, movies } })
+            const members = await getAllMembers(token)
+            const subscriptions = await getAllSub(token)
+            dispatch({ type: "LOAD_DATA", payload: { users, movies, members, subscriptions } })
         } catch (error) {
             return console.log(error)
         }
@@ -46,6 +50,7 @@ export default function MenuPage() {
     }
     useEffect(() => {
         fetchData()
+        //navigate('/menu')
     }, [])
 
     const logOut = async () => {

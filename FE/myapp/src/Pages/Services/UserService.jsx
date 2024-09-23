@@ -8,7 +8,6 @@ const getAllUsers = async (token) => {
             }
         })
         return data
-
     } catch (error) {
         return (error.response.data || error.message)
     }
