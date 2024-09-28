@@ -116,7 +116,7 @@ export default function AllMembersPage() {
                     const memberSubscription = subscriptions.find(sub => sub.memberId === selectedMember._id);
                     if (memberSubscription) {
                         memberSubscription.movies.push(subcribedMovieData);
-
+                        console.log(memberSubscription)
                         dispatch({ type: "UPDATE_SUB", payload: memberSubscription });
                         alert("Succesfully Subscribed")
                         setSubcribedMovieData({ movieId: "", date: "" });
@@ -175,6 +175,7 @@ export default function AllMembersPage() {
                                 <MovieList>
                                     {watchedMovies.map(movie => {
                                         const movieDetails = movies.find(m => m._id === movie.movieId);
+                                        
                                         return (
                                             <MovieItem key={movie.movieId}>
                                                 <Link><strong>{movieDetails ? movieDetails.name : 'Unknown Movie'}</strong></Link> , {movie.date}

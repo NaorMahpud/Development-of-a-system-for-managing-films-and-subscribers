@@ -28,6 +28,8 @@ export default function AddUserPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const token = sessionStorage.getItem('token')
+
     const checkToken1 = async () => {
         const validation = await checkToken(token)
         if (validation.status !== "valid") {

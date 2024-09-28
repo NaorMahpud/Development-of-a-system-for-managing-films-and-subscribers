@@ -59,7 +59,7 @@ export default function AddMoviePage() {
             <Div>
                 <label>
                     Name: <input onChange={(e) => setFormData({ ...formData, name: e.target.value })} style={{ fontSize: "20px", width: "70%" }} type='text' /> <br />
-                    Genres: <input onChange={(e) => setFormData({ ...formData, genre: e.target.value })} style={{ fontSize: "20px", width: "70%" }} type='text' /> <br />
+                    Genres: <input onChange={(e) => setFormData({ ...formData, genres: e.target.value })} style={{ fontSize: "20px", width: "70%" }} type='text' /> <br />
                     image URL: <input onChange={(e) => setFormData({ ...formData, image: e.target.value })} style={{ fontSize: "20px", width: "70%" }} type='text' /> <br />
                     Premiered: <input onChange={(e) => setFormData({ ...formData, premiered: e.target.value })} style={{ fontSize: "20px", width: "23%" }} type='date' /> <br />
                 </label>

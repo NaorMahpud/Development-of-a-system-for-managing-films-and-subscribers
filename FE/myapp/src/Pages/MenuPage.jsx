@@ -65,9 +65,12 @@ export default function MenuPage() {
     }, [])
 
     const saveAllToServer = async () => {
-        const resp = await saveToServer(token, store)
-        if (resp.error) console.log(error)
-        alert("Save All Changes")
+        try {
+            await saveToServer(token, store)
+            alert("Save All Changes")
+        } catch (error) {
+            return console.log(error)
+        }
     }
     const logOut = async () => {
         sessionStorage.clear()
@@ -82,7 +85,7 @@ export default function MenuPage() {
         return { backgroundColor: activeButton == buttonIndex ? 'yellow' : 'white' }
     }
     const print = () => {
-        console.log(canViewSubscriptions)
+        console.log(store)
     }
 
     return (

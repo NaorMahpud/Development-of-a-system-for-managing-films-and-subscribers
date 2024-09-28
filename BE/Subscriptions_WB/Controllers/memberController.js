@@ -1,51 +1,68 @@
-const express = require('express')
-const route = express.Router()
-const memberService = require('../Services/memberService')
+const express = require('express');
+const router = express.Router();
+const memberService = require('../Services/memberService');
 
-route.get('/', async (req, res) => {
+const filterAllowedFields = (data, allowedFields) => {
+    return Object.keys(data)
+        .filter(key => allowedFields.includes(key))
+        .reduce((obj, key) => {
+            obj[key] = data[key];
+            return obj;
+        }, {});
+};
+
+router.get('/', async (req, res) => {
     try {
-        const members = await memberService.getAllMembers()
-        return res.json(members)
+        const members = await memberService.getAllMembers();
+        return res.json(members);
     } catch (err) {
-        throw (err.message)
+        return res.status(500).send(err.message);
     }
-})
+});
 
-route.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        const member = await memberService.getMemberById(req.params.id)
-        return res.json(member)
+        const member = await memberService.getMemberById(req.params.id);
+        return res.json(member);
     } catch (err) {
-        throw (err.message)
+        return res.status(500).send(err.message);
     }
-})
+});
 
-route.post('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        const status = await memberService.createMember(req.body)
-        return res.json(status)
+        
+        const allowedFields = ['name', 'email', 'city'];
+        const filteredData = filterAllowedFields(req.body, allowedFields);
+        
+        const status = await memberService.createMember(filteredData);
+        return res.json(status);
     } catch (err) {
-        throw (err.message)
+        return res.status(500).send(err.message);
     }
-})
+});
 
-route.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
-        const { id } = req.params
-        const status = await memberService.updateMember(id, req.body)
-        return res.json(status)
-    } catch (err) {
-        throw (err.message)
-    }
-})
+        const { id } = req.params;
+        
+        const allowedFields = ['name', 'email', 'city'];
+        const filteredData = filterAllowedFields(req.body, allowedFields);
 
-route.delete('/:id', async (req, res) => {
+        const status = await memberService.updateMember(id, filteredData);
+        return res.json(status);
+    } catch (err) {
+        return res.status(500).send(err.message);
+    }
+});
+
+router.delete('/:id', async (req, res) => {
     try {
-        const status = await memberService.deleteMember(req.params.id)
-        return res.json(status)
+        const status = await memberService.deleteMember(req.params.id);
+        return res.json(status);
     } catch (err) {
-        throw (err.message)
+        return res.status(500).send(err.message);
     }
-})
+});
 
-module.exports = route
+module.exports = router;

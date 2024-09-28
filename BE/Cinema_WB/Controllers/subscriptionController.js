@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const subscriptionService = require('../Services/subscriptionService');
-const authAdmin = require('../Middlewares/authAdmin');
 
 router.get('/', async (req, res) => {
     try {
@@ -24,7 +23,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', authAdmin, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { memberId, movies } = req.body;
 
@@ -39,7 +38,7 @@ router.post('/', authAdmin, async (req, res) => {
     }
 });
 
-router.put('/:id', authAdmin, async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const updatedSubscription = await subscriptionService.updateSub(req.params.id, req.body);
         return res.json({ message: 'Subscription updated successfully', subscription: updatedSubscription });
@@ -48,7 +47,7 @@ router.put('/:id', authAdmin, async (req, res) => {
     }
 });
 
-router.delete('/:id', authAdmin, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const deletedSubscription = await subscriptionService.deleteSub(req.params.id);
         return res.json({ message: 'Subscription deleted successfully', subscription: deletedSubscription });

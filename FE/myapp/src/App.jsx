@@ -58,7 +58,7 @@ function App() {
         </Routes>
       </Router>
 
-      <br /> <br /> <br /><br /> <br /> <br /> <br /><br /> <br /> <br /> <br /><br />
+      
       <div style={{ border: "2px solid green", height: "140px" }}><h1 style={{ display: "flex", justifyContent: "center", color: "green" }}>Policy...</h1></div>
 
     </div>

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const memberService = require('../Services/memberService');
-const authAdmin = require("../Middlewares/authAdmin");
 
 router.get('/', async (req, res) => {
     try {
@@ -24,7 +23,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', authAdmin, async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { name, email, city } = req.body;
 
@@ -39,8 +38,13 @@ router.post('/', authAdmin, async (req, res) => {
     }
 });
 
-router.put('/:id', authAdmin, async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
+        const { name, email, city } = req.body;
+        console.log(req.body)
+        if (!name || !email || !city) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
         const updatedMember = await memberService.updateMember(req.params.id, req.body);
         return res.json({ message: 'Member updated successfully', member: updatedMember });
     } catch (err) {
@@ -48,7 +52,7 @@ router.put('/:id', authAdmin, async (req, res) => {
     }
 });
 
-router.delete('/:id', authAdmin, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const deletedMember = await memberService.deleteMember(req.params.id);
         return res.json({ message: 'Member deleted successfully', member: deletedMember });

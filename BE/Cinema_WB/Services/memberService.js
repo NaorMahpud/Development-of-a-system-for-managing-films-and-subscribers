@@ -41,7 +41,8 @@ const updateMember = async (id, updatedData) => {
 
 const deleteMember = async (id) => {
     try {
-        await axios.delete(`http://localhost:8000/sub/members/${id}`);
+        const deletedM = await axios.delete(`http://localhost:8000/sub/members/${id}`);
+        
         return "Deleted";
     } catch (err) {
         throw new Error(`Failed to delete member with ID ${id}: ` + err.message);

@@ -5,55 +5,62 @@ import { createUser, deleteUser, updateUser } from "./UserService";
 
 const saveToServer = async (token, store) => {
     try {
+        const actions = {
+            users: {
+                NEW: createUser,
+                UPDATED: updateUser,
+                DELETED: deleteUser
+            },
+            movies: {
+                NEW: createMovie,
+                UPDATED: updateMovie,
+                DELETED: deleteMovie
+            },
+            members: {
+                NEW: createMember,
+                UPDATED: updateMember,
+                DELETED: deleteMember
+            },
+            subscriptions: {
+                NEW: createSub,
+                UPDATED: updateSub,
+                DELETED: deleteSub
+            }
+        };
+
+        const promises = [];
+
         for (const key in store) {
-            if (store.hasOwnProperty(key)) {
+            if (store.hasOwnProperty(key) && actions[key]) {
                 const array = store[key];
+
                 for (const element of array) {
-                    if (!element.status) break;
+                    if (!element.status) {
+                        break;
+                    }
 
-                    if (key === 'users') {
-                        if (element.status === "NEW") {
-                            await createUser(token, element);
-                        } else if (element.status === "UPDATED") {
-                            await updateUser(token, element);
-                        } else {
-                            await deleteUser(token, element._id);
-                        }
+                    const actionType = element.status
+                    const actionFunc = actions[key][actionType];
 
-                    } else if (key === 'movies') {
-                        if (element.status === "NEW") {
-                            await createMovie(token, element);
-                        } else if (element.status === "UPDATED") {
-                            await updateMovie(token, element);
-                        } else {
-                            await deleteMovie(token, element._id);
-                        }
+                    if (actionFunc) {
+                        const actionPromise = actionType === "DELETED"
+                            ? actionFunc(token, element._id)
+                            : actionFunc(token, element);
 
-                    } else if (key === 'members') {
-                        if (element.status === "NEW") {
-                            await createMember(token, element);
-                        } else if (element.status === "UPDATED") {
-                            await updateMember(token, element);
-                        } else {
-                            await deleteMember(token, element._id);
-                        }
-                    } else if (key === 'subscriptions') {
-                        if (element.status === "NEW") {
-                            await createSub(token, element);
-                        } else if (element.status === "UPDATED") {
-                            await updateSub(token, element);
-                        } else {
-                            await deleteSub(token, element._id);
-                        }
+                        
+                        promises.push(actionPromise);
                     }
                 }
             }
         }
-        window.location.reload()
-        return "saved"
+        const resp = await Promise.all(promises);
+        console.log(resp.error)
+        //window.location.reload();
+        return "saved";
     } catch (error) {
         return error;
     }
 };
+
 
 export { saveToServer };
