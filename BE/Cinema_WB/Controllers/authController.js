@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const userModel = require('../Models/userModel');
 const userRepo = require('../Repositories/userRepo')
+const permissionsRepo = require('../Repositories/permissionRepo')
 const bcrypt = require('bcrypt');
 const authToken = require('../Middlewares/authToken')
 
@@ -43,12 +44,15 @@ router.post('/login', async (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password)
         if (!isPasswordValid) return res.status(401).json({ error: 'Invalid password' });
 
-        const token = jwt.sign({ userId: user._id, username, role: user.role }, "secretkey", { expiresIn: '100d' });
+        const token = jwt.sign({ userId: user._id, username, role: user.role }, "secretkey", { expiresIn: '100h' });
 
         const usersFromJson = await userRepo.readUserJson()
         const jsonUser = usersFromJson.find(userJson => userJson.id === user._id.toString())
 
-        return res.json({ token, status: "Logging in...", fullName: (jsonUser.firstName + `-` + jsonUser.lastName) })
+        const usersPermissions = await permissionsRepo.readPermissionJson()
+        const userPer = usersPermissions.find(per => per.id === user.id.toString())
+
+        return res.json({ token, status: "Logging in...", fullName: (jsonUser.firstName + `-` + jsonUser.lastName), permissions: userPer.permissions })
 
     } catch (err) {
         res.status(500).json({ error: 'Login failed: ' + err.message });
@@ -56,6 +60,6 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/checkToken', authToken, (req, res) => {
-    return res.json("validToken")
-})  
+    return res.json({ status: "valid", userData: req.user })
+})
 module.exports = router;

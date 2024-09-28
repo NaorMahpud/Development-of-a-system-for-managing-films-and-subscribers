@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 const Button = styled.button`
         background-color: #4CAF50;
-        color: white;
         border: none;
+        color: white;
         padding: 10px 40px;
         font-size: 18px;
         cursor: pointer;
@@ -15,7 +15,12 @@ const Button = styled.button`
         &:hover {
             background-color: #45a049;
         }
+        &:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
     `;
+
 const MovieCard = styled.div`
         height: auto;
         display: flex;
@@ -57,15 +62,20 @@ const MovieImage = styled.img`
 
 export default function AllMovies() {
     const movies = useSelector((store) => store.movies);
-    const [searchTerm, setSearchTerm] = useState('')
-    const dispatch = useDispatch()
+    const [searchTerm, setSearchTerm] = useState('');
+    const dispatch = useDispatch();
 
-    const filteredMovies = movies.filter(movie => movie.name.toLowerCase().includes(searchTerm.toLowerCase()) && movie.status !== "DELETED")
+    const permissions = (sessionStorage.getItem('permission')).split(',') || [];
+    const role = sessionStorage.getItem('role')
+    const canUpdateMovie = role === "Admin" || permissions.includes('Update Movies');
+    const canDeleteMovie = role === "Admin" || permissions.includes('Delete Movies');
+
+    const filteredMovies = movies.filter(movie => movie.name.toLowerCase().includes(searchTerm.toLowerCase()) && movie.status !== "DELETED");
 
     const handleDeleteButton = (movie) => {
-        dispatch({ type: "DELETE_MOVIE", payload: movie })
-        alert("Successfully Deleted")
-    }
+        dispatch({ type: "DELETE_MOVIE", payload: movie });
+        alert("Successfully Deleted");
+    };
 
     return (
         <div>
@@ -82,7 +92,7 @@ export default function AllMovies() {
                             <strong><label>{movie.name} - {movie.premiered.split('-')[0]}</label></strong>
                             <div>
                                 Genres: {movie.genres.map((genre, index) => {
-                                    return <label key={index}>{genre}, </label>
+                                    return <label key={index}>{genre}, </label>;
                                 })}
                             </div>
 
@@ -95,15 +105,17 @@ export default function AllMovies() {
 
                             <div>
                                 <Link to={`/menu/movies/editmovie/${movie._id}`}>
-                                    <Button>Edit</Button>
+                                    <Button disabled={!canUpdateMovie}>Edit</Button>
+
                                 </Link>
-                                <Button onClick={() => handleDeleteButton(movie)}>Delete</Button>
+                                <Button disabled={!canDeleteMovie} onClick={() => handleDeleteButton(movie)}>Delete</Button>
+
                             </div>
                         </MovieDetails>
                     </MovieCard>
                 ))}
             </UsersContainer>
-            <Outlet/>
+            <Outlet />
         </div>
     );
 }

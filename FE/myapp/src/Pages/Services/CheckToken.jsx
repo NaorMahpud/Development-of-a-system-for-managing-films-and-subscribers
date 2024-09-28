@@ -7,8 +7,7 @@ const checkToken = async (token) => {
                 Authorization: `${token}`
             }
         })
-        if (data === "validToken") return 'valid'
-
+        return data
     } catch (error) {
         return console.error(error)
     }

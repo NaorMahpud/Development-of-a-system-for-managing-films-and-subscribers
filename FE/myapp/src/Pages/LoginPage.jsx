@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom"
 import { login } from './Services/LoginRegService'
 
@@ -7,25 +7,30 @@ export default function LoginPage() {
     const labelStyle = {
         display: "flex",
         justifyContent: "center",
-        fontSize: "20px",
+        fontSize: "20px"
     }
-
+    useEffect(() => {
+        if (sessionStorage.getItem('msg')) document.getElementById('msg').innerText = sessionStorage.getItem('msg')
+    }, [])
     const [UnameAndPassword, setUnameAndPassword] = useState({ username: "", password: "" })
     const navigate = useNavigate()
 
     const handleLogin = async () => {
-        const token = localStorage.getItem('token')
-        const par = document.getElementById('msg')
-        const resp = await login(token, UnameAndPassword)
-        if (resp.error) return par.innerText = resp.error
-        sessionStorage.setItem('token', resp.token)
-        sessionStorage.setItem('fullName', resp.fullName)
-        par.innerText = resp.status
+        sessionStorage.clear()
+        if (UnameAndPassword.username !== '' && UnameAndPassword.password !== '') {
+            const par = document.getElementById('msg')
+            const resp = await login(UnameAndPassword)
+            if (resp.error) return par.innerText = resp.error
+            sessionStorage.setItem('token', resp.token)
+            sessionStorage.setItem('fullName', resp.fullName)
+            sessionStorage.setItem('permission', resp.permissions)
 
+            par.innerText = resp.status
 
-        setTimeout(() => {
-            navigate('/menu')
-        }, 1100)
+            setTimeout(() => {
+                navigate('/menu')
+            }, 1100)
+        }
     }
 
 
@@ -42,7 +47,7 @@ export default function LoginPage() {
                 </label> <br />
                 <label style={labelStyle}>
                     <br></br>
-                    <button style={{ padding: "10px" }} type='button' onClick={() => handleLogin()}>Login</button> <br />
+                    <button style={{ padding: "10px", width: "70px" }} type='button' onClick={() => handleLogin()}>Login</button> <br />
                 </label><br />
                 <label style={labelStyle}>
                     New User ? : <Link to={'/createAccount'}>Create Account</Link>

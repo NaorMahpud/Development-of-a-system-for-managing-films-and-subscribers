@@ -64,43 +64,32 @@ export default function EditUser() {
             let updatedPermissions = [...prevData.permissions];
 
             if (checked) {
-                if (value === "Create Subscriptions" || value === "Update Subscriptions" || value === "Delete Subscriptions") {
-                    if (!updatedPermissions.includes("View Subscriptions")) {
-                        updatedPermissions.push("View Subscriptions");
+                if (value === 'Create Subscriptions' || value === 'Update Subscriptions' || value === 'Delete Subscriptions') {
+                    if (!updatedPermissions.includes('View Subscriptions')) {
+                        updatedPermissions.push('View Subscriptions');
                     }
                 }
 
-                if (value === "Create Movies" || value === "Update Movies" || value === "Delete Movies") {
-                    if (!updatedPermissions.includes("View Movies")) {
-                        updatedPermissions.push("View Movies");
+                if (value === 'Create Movies' || value === 'Update Movies' || value === 'Delete Movies') {
+                    if (!updatedPermissions.includes('View Movies')) {
+                        updatedPermissions.push('View Movies');
                     }
                 }
-
                 updatedPermissions.push(value);
             } else {
-                updatedPermissions = updatedPermissions.filter((perm) => perm !== value);
-
-
-                if (value === "Create Subscriptions" || value === "Update Subscriptions" || value === "Delete Subscriptions") {
-                    if (!updatedPermissions.includes("Create Subscriptions") &&
-                        !updatedPermissions.includes("Update Subscriptions") &&
-                        !updatedPermissions.includes("Delete Subscriptions")
-                    ) {
-                        updatedPermissions = updatedPermissions.filter((perm) => perm !== "View Subscriptions");
-                    }
+                if (value === "View Subscriptions" &&
+                    (updatedPermissions.includes('Create Subscriptions') ||
+                        updatedPermissions.includes('Update Subscriptions') ||
+                        updatedPermissions.includes('Delete Subscriptions'))) {
+                } else if (value === "View Movies" &&
+                    (updatedPermissions.includes('Create Movies') ||
+                        updatedPermissions.includes('Update Movies') ||
+                        updatedPermissions.includes('Delete Movies'))) {
+                } else {
+                    updatedPermissions = updatedPermissions.filter((perm) => perm !== value);
                 }
 
-                if (value === "Create Movies" || value === "Update Movies" || value === "Delete Movies") {
-                    if (
-                        !updatedPermissions.includes("Create Movies") &&
-                        !updatedPermissions.includes("Update Movies") &&
-                        !updatedPermissions.includes("Delete Movies")
-                    ) {
-                        updatedPermissions = updatedPermissions.filter((perm) => perm !== "View Movies");
-                    }
-                }
             }
-
             return { ...prevData, permissions: updatedPermissions };
         });
     };

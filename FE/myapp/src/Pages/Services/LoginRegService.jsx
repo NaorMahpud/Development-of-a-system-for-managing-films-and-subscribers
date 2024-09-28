@@ -10,13 +10,9 @@ const register = async (UnameAndPassword) => {
 
 }
 
-const login = async (token, UnameAndPassword) => {
+const login = async (UnameAndPassword) => {
     try {
-        const { data } = await axios.post("http://localhost:7000/cinema/auth/login", UnameAndPassword, {
-            headers: {
-                Authorization: `${token}`
-            }
-        })
+        const { data } = await axios.post("http://localhost:7000/cinema/auth/login", UnameAndPassword)
         return data
     } catch (error) {
         return (error.response?.data || error.message)

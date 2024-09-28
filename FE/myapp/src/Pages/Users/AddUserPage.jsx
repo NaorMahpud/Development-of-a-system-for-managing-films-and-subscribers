@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { v4 } from 'uuid';
+import { checkToken } from '../Services/CheckToken';
 
 const Button = styled.button`
         background-color: #C0C0C10; 
@@ -26,6 +27,18 @@ const Div = styled.div`
 export default function AddUserPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const checkToken1 = async () => {
+        const validation = await checkToken(token)
+        if (validation.status !== "valid") {
+            sessionStorage.clear()
+            sessionStorage.setItem('msg', "Invalid token")
+            return navigate('/')
+        }
+    }
+    useEffect(() => {
+        checkToken1()
+    })
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -59,28 +72,20 @@ export default function AddUserPage() {
                         updatedPermissions.push('View Movies');
                     }
                 }
-
                 updatedPermissions.push(value);
             } else {
-                updatedPermissions = updatedPermissions.filter((perm) => perm !== value);
-                if (value === 'Create Subscriptions' || value === 'Update Subscriptions' || value === 'Delete Subscriptions') {
-                    if (
-                        !updatedPermissions.includes('Create Subscriptions') &&
-                        !updatedPermissions.includes('Update Subscriptions') &&
-                        !updatedPermissions.includes('Delete Subscriptions')
-                    ) {
-                        updatedPermissions = updatedPermissions.filter((perm) => perm !== 'View Subscriptions');
-                    }
+                if (value === "View Subscriptions" &&
+                    (updatedPermissions.includes('Create Subscriptions') ||
+                        updatedPermissions.includes('Update Subscriptions') ||
+                        updatedPermissions.includes('Delete Subscriptions'))) {
+                } else if (value === "View Movies" &&
+                    (updatedPermissions.includes('Create Movies') ||
+                        updatedPermissions.includes('Update Movies') ||
+                        updatedPermissions.includes('Delete Movies'))) {
+                } else {
+                    updatedPermissions = updatedPermissions.filter((perm) => perm !== value);
                 }
-                if (value === 'Create Movies' || value === 'Update Movies' || value === 'Delete Movies') {
-                    if (
-                        !updatedPermissions.includes('Create Movies') &&
-                        !updatedPermissions.includes('Update Movies') &&
-                        !updatedPermissions.includes('Delete Movies')
-                    ) {
-                        updatedPermissions = updatedPermissions.filter((perm) => perm !== 'View Movies');
-                    }
-                }
+
             }
 
             return { ...prevData, permissions: updatedPermissions };

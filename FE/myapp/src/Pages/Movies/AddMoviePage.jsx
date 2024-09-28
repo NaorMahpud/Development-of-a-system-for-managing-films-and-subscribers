@@ -17,7 +17,8 @@ const Button = styled.button`
     }   
   `;
 const Div = styled.div`
-        width: 50%;
+        font-size: 25px;
+        width: 70%;
         border: 3px solid green;
         padding: 1rem;
     `;
@@ -56,7 +57,7 @@ export default function AddMoviePage() {
         <div style={{ paddingBottom: "10px" }}>
             <p id='msg' style={{ fontSize: "27px", color: "blue" }}></p>
             <Div>
-                <label style={{ fontSize: "24px" }}>
+                <label>
                     Name: <input onChange={(e) => setFormData({ ...formData, name: e.target.value })} style={{ fontSize: "20px", width: "70%" }} type='text' /> <br />
                     Genres: <input onChange={(e) => setFormData({ ...formData, genre: e.target.value })} style={{ fontSize: "20px", width: "70%" }} type='text' /> <br />
                     image URL: <input onChange={(e) => setFormData({ ...formData, image: e.target.value })} style={{ fontSize: "20px", width: "70%" }} type='text' /> <br />

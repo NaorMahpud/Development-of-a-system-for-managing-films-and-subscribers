@@ -12,12 +12,20 @@ const Button = styled.button`
     &:hover {
       background-color: orange;
     }
+    &:disabled {
+        background-color: grey;
+        cursor: not-allowed;
+    }  
   `;
 
 export default function SubscriptionsPage() {
 
     const [activeButton, setActiveButton] = useState(1)
     const navigate = useNavigate()
+
+    const permissions = (sessionStorage.getItem('permission')).split(',') || []
+    const role = sessionStorage.getItem('role')
+    const canCreateSub = role === "Admin" || permissions.includes('Create Subscriptions')
 
     const handleClick = (buttonIndex) => {
         setActiveButton(buttonIndex)
@@ -36,7 +44,7 @@ export default function SubscriptionsPage() {
             <h1>Subscriptions</h1>
             <div style={{ padding: "0px", margin: "20px" }}>
                 <Link to={'/menu/subscriptions/allmembers'}><Button style={getButtonStyle(1)} onClick={() => handleClick(1)}>All Members</Button></Link>
-                <Link to={'/menu/subscriptions/addmember'}><Button style={getButtonStyle(2)} onClick={() => handleClick(2)}>Add Member</Button></Link>
+                <Link to={'/menu/subscriptions/addmember'}><Button disabled={!canCreateSub} style={getButtonStyle(2)} onClick={() => handleClick(2)}>Add Member</Button></Link>
 
                 <Outlet />
             </div>

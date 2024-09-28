@@ -1,4 +1,6 @@
+import { createMember, deleteMember, updateMember } from "./MemberService";
 import { createMovie, deleteMovie, updateMovie } from "./MoviesService";
+import { createSub, deleteSub, updateSub } from "./SubscriptionService";
 import { createUser, deleteUser, updateUser } from "./UserService";
 
 const saveToServer = async (token, store) => {
@@ -7,44 +9,48 @@ const saveToServer = async (token, store) => {
             if (store.hasOwnProperty(key)) {
                 const array = store[key];
                 for (const element of array) {
-                    if (!element.status) continue;
+                    if (!element.status) break;
 
                     if (key === 'users') {
                         if (element.status === "NEW") {
-                            delete element.status
-                            const resp = await createUser(token, element);
-                            element._id = resp.user._id
+                            await createUser(token, element);
                         } else if (element.status === "UPDATED") {
-                            delete element.status
                             await updateUser(token, element);
                         } else {
                             await deleteUser(token, element._id);
-                            const index = array.findIndex(user => user._id === element._id)
-                            array.splice(index, 1)
                         }
 
                     } else if (key === 'movies') {
                         if (element.status === "NEW") {
-                            delete element.status
-                            const resp = await createMovie(token, element);
-                            element._id = resp.movie._id
+                            await createMovie(token, element);
                         } else if (element.status === "UPDATED") {
-                            delete element.status
                             await updateMovie(token, element);
                         } else {
                             await deleteMovie(token, element._id);
-                            const index = array.findIndex(movie => movie._id === element._id)
-                            array.splice(index, 1)
                         }
 
+                    } else if (key === 'members') {
+                        if (element.status === "NEW") {
+                            await createMember(token, element);
+                        } else if (element.status === "UPDATED") {
+                            await updateMember(token, element);
+                        } else {
+                            await deleteMember(token, element._id);
+                        }
                     } else if (key === 'subscriptions') {
-
+                        if (element.status === "NEW") {
+                            await createSub(token, element);
+                        } else if (element.status === "UPDATED") {
+                            await updateSub(token, element);
+                        } else {
+                            await deleteSub(token, element._id);
+                        }
                     }
                 }
             }
         }
-
-        alert('Saved All Changes')
+        window.location.reload()
+        return "saved"
     } catch (error) {
         return error;
     }

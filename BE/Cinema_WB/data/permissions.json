@@ -4,7 +4,13 @@
       "id": "66e76844440c8a05d8f0bf59",
       "permissions": [
         "View Subscriptions",
-        "Create Subscriptions"
+        "Create Subscriptions",
+        "Delete Subscriptions",
+        "Update Subscriptions",
+        "View Movies",
+        "Create Movies",
+        "Update Movies",
+        "Delete Movies"
       ]
     },
     {
@@ -12,14 +18,12 @@
       "permissions": [
         "View Subscriptions",
         "Create Subscriptions",
-        "Delete Subscriptions"
-      ]
-    },
-    {
-      "id": "66f17d7c155c7162ee5b0d57",
-      "permissions": [
-        "View Subscriptions",
-        "Create Subscriptions"
+        "Delete Subscriptions",
+        "Update Subscriptions",
+        "View Movies",
+        "Create Movies",
+        "Update Movies",
+        "Delete Movies"
       ]
     }
   ]

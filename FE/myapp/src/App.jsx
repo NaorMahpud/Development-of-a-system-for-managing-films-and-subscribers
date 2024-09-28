@@ -14,7 +14,6 @@ import Editmovie from "./Pages/Movies/Editmovie"
 import SubscriptionsPage from "./Pages/Subscriptions/SubscriptionsPage"
 import AllMemberPage from "./Pages/Subscriptions/AllMemberPage"
 import AddMemberPage from "./Pages/Subscriptions/AddMemberPage"
-import ExamplePage from "./Pages/Example"
 import EditMember from "./Pages/Subscriptions/EditMember"
 
 

@@ -17,7 +17,8 @@ margin: 10px 30px;
 `;
 
 const Div = styled.div`
-        width: 450px;
+        width: 80%;
+        font-size: 25px;
         border: 3px solid green;
         padding: 1rem;
     `;
@@ -27,7 +28,6 @@ export default function Editmovie() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const movie = useSelector((store) => store.movies).find(movie => movie._id === id);
-    const store = useSelector((store) => store)
 
     const [formData, setFormData] = useState({ _id: "", name: '', genres: [], image: '', premiered: '' });
     const [toUpdate, setToUpdate] = useState(false)
@@ -71,7 +71,7 @@ export default function Editmovie() {
         <div>
             <h2>Edit Movies: {formData.name}</h2>
             <p id='msg' style={{ fontSize: "27px" }}></p>
-            <Div style={{ border: '2px solid green', width: '50%', fontSize: '24px' }}>
+            <Div>
                 <label>
                     <strong>Name: </strong>
                     <input
