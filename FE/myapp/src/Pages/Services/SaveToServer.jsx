@@ -43,18 +43,14 @@ const saveToServer = async (token, store) => {
                     const actionFunc = actions[key][actionType];
 
                     if (actionFunc) {
-                        const actionPromise = actionType === "DELETED"
-                            ? actionFunc(token, element._id)
-                            : actionFunc(token, element);
-
-                        
+                        const actionPromise = actionType === "DELETED" ? actionFunc(token, element._id) : actionFunc(token, element);
                         promises.push(actionPromise);
                     }
                 }
             }
         }
         const resp = await Promise.all(promises);
-        console.log(resp.error)
+        console.log(await resp)
         //window.location.reload();
         return "saved";
     } catch (error) {

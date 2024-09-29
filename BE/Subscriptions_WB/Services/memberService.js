@@ -54,7 +54,6 @@ const updateMember = async (id, updatedOne) => {
 const deleteMember = async (id) => {
     try {
         const deletedMember = await memberModel.findByIdAndDelete(id);
-        console.log(deletedMember)
         if (!deletedMember) {
             throw new Error('Member not found');
         }

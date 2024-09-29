@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-const authAdmin = require('./Middlewares/authAdmin')
 
 mongoose.connect('mongodb://127.0.0.1:27017/FS18DB')
     .then(() => console.log("Connected to DB"))
@@ -10,7 +9,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/FS18DB')
 
 app.use(express.json())
 app.use(cors())
-
 
 
 const userController = require('./Controllers/userController')
@@ -26,10 +24,6 @@ app.use('/cinema/movies', authToken, movieController)
 app.use('/cinema/subscriptions', authToken, subController)
 app.use('/cinema/auth', authController)
 
-
-app.use('/admin', authToken, authAdmin, (req, res) => {
-    res.json({ message: 'Welcome Admin!' });
-})
 
 app.listen((port = 7000), () => {
     console.log(`Server is running at http://localhost:${port}`)

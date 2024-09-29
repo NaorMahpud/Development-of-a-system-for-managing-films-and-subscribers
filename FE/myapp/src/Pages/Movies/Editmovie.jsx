@@ -29,28 +29,19 @@ export default function Editmovie() {
     const navigate = useNavigate();
     const movie = useSelector((store) => store.movies).find(movie => movie._id === id);
 
-    const [formData, setFormData] = useState({ _id: "", name: '', genres: [], image: '', premiered: '' });
-    const [toUpdate, setToUpdate] = useState(false)
+    const [formData, setFormData] = useState({ _id: "", name: '', genres: '', image: '', premiered: '' });
 
     useEffect(() => {
         if (movie) {
             setFormData({
                 _id: id || '',
                 name: movie.name || '',
-                genres: movie.genres || [],
-                image: movie.image || '',
+                genres: movie.genres,
+                image: movie.image || [],
                 premiered: movie.premiered || ''
             });
         }
     }, [movie]);
-
-    useEffect(() => {
-        if (toUpdate) {
-            dispatch({ type: "UPDATE_MOVIE", payload: formData })
-            alert("Successfully Updated!")
-            navigate('/menu/movies/allmovies')
-        }
-    }, [toUpdate])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -61,10 +52,9 @@ export default function Editmovie() {
         if (formData.name === "" || formData.image === "" || formData.premiered === "" || formData.genres === '') {
             return document.getElementById("msg").innerText = "Details is missing"
         }
-        const genresArr = []
-        genresArr.push(formData.genres)
-        setFormData({ ...formData, genres: genresArr })
-        setToUpdate(true)
+        dispatch({ type: "UPDATE_MOVIE", payload: formData })
+        alert("Successfully Updated!")
+        navigate('/menu/movies/allmovies')
     }
 
     return (

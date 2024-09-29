@@ -36,7 +36,7 @@ export default function EditMember() {
       setFormData({
         _id: id || '',
         name: member.name || '',
-        email: member.email,
+        email: member.email || '',
         city: member.city || ''
       });
     }

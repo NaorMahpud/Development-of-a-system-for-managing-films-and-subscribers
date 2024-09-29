@@ -29,7 +29,7 @@ const createMember = async (token, memberData) => {
 const updateMember = async (token, memberData) => {
     try {
         const { _id } = memberData
-        const { data } = await axios.put(`http://localhost:7000/cinema/members${_id}`, memberData, {
+        const { data } = await axios.put(`http://localhost:7000/cinema/members/${_id}`, memberData, {
             headers: {
                 Authorization: `${token}`
             }
@@ -42,7 +42,7 @@ const updateMember = async (token, memberData) => {
 
 const deleteMember = async (token, id) => {
     try {
-        const { data } = await axios.delete(`http://localhost:7000/cinema/members${id}`, {
+        const { data } = await axios.delete(`http://localhost:7000/cinema/members/${id}`, {
             headers: {
                 Authorization: `${token}`
             }

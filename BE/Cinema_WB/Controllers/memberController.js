@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { name, email, city } = req.body;
-        console.log(req.body)
+        
         if (!name || !email || !city) {
             return res.status(400).json({ error: 'Missing required fields' });
         }

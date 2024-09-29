@@ -40,6 +40,12 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
+        const { memberId, movies } = req.body;
+
+        if (!memberId || !movies) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
         const updatedSubscription = await subscriptionService.updateSub(req.params.id, req.body);
         return res.json({ message: 'Subscription updated successfully', subscription: updatedSubscription });
     } catch (err) {

@@ -35,12 +35,11 @@ route.get('/:id', async (req, res) => {
 
 route.post('/', async (req, res) => {
     try {
-        
-        const allowedFields = ['name', 'premiered', 'genres', 'image'];
-        const filteredData = filterAllowedFields(req.body, allowedFields);
 
+        const allowedFields = ['name', 'premiered', 'genres', 'image'];
+        const filteredData = await filterAllowedFields(req.body, allowedFields);
         const status = await movieService.createMovie(filteredData);
-        return res.status(201).json(status); // סטטוס 201 עבור יצירה מוצלחת
+        return res.status(201).json(status);
     } catch (err) {
         return res.status(500).send({ error: 'Failed to create movie', details: err.message });
     }
@@ -52,7 +51,7 @@ route.put('/:id', async (req, res) => {
 
         const allowedFields = ['name', 'premiered', 'genres', 'image'];
         const filteredData = filterAllowedFields(req.body, allowedFields);
-
+        
         const status = await movieService.updateMovie(id, filteredData);
         if (status === null) {
             return res.status(404).send({ error: 'Movie not found' });

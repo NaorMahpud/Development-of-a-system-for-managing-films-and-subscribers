@@ -32,7 +32,8 @@ const createMovie = async (newData) => {
 
 const updateMovie = async (id, updatedData) => {
     try {
-        await axios.put(`http://localhost:8000/sub/movies/${id}`, updatedData);
+        const { data } = await axios.put(`http://localhost:8000/sub/movies/${id}`, updatedData);
+        console.log(data)
         return "Updated";
     } catch (err) {
         throw new Error(`Failed to update movie with ID ${id}: ` + err.message);

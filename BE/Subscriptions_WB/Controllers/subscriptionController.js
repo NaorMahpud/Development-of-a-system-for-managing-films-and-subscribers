@@ -34,11 +34,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const allowedFields = ['memberId', 'movieId', 'date'];
+        const allowedFields = ['memberId', 'movies'];
         const filteredData = filterAllowedFields(req.body, allowedFields);
 
         const status = await subService.createSub(filteredData);
-        return res.status(201).json(status); 
+        return res.status(201).json(status);
     } catch (err) {
         return res.status(500).send({ error: 'Failed to create subscription', details: err.message });
     }
@@ -48,7 +48,7 @@ router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        const allowedFields = ['memberId', 'movieId', 'date'];
+        const allowedFields = ['memberId', 'movies'];
         const filteredData = filterAllowedFields(req.body, allowedFields);
 
         const status = await subService.updateSub(id, filteredData);

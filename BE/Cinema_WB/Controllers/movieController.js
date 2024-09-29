@@ -40,6 +40,11 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
+        const { name, genres, image, premiered } = req.body
+        if (!name || !genres || !image || !premiered) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
         const updatedMovie = await movieService.updateMovie(req.params.id, req.body);
         return res.json({ message: 'Movie updated successfully', movie: updatedMovie });
     } catch (err) {
