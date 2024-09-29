@@ -10,7 +10,12 @@ export default function LoginPage() {
         fontSize: "20px"
     }
     useEffect(() => {
-        if (sessionStorage.getItem('msg')) document.getElementById('msg').innerText = sessionStorage.getItem('msg')
+        if (sessionStorage.getItem('msg')) {
+            document.getElementById('msg').innerText = sessionStorage.getItem('msg')
+            setTimeout(() => {
+                document.getElementById('msg').innerText = ""
+            }, 2000)
+        }
     }, [])
     const [UnameAndPassword, setUnameAndPassword] = useState({ username: "", password: "" })
     const navigate = useNavigate()
@@ -21,6 +26,7 @@ export default function LoginPage() {
             const par = document.getElementById('msg')
             const resp = await login(UnameAndPassword)
             if (resp.error) return par.innerText = resp.error
+
             sessionStorage.setItem('token', resp.token)
             sessionStorage.setItem('fullName', resp.fullName)
             sessionStorage.setItem('permission', resp.permissions)

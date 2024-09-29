@@ -57,6 +57,14 @@ export default function Editmovie() {
         navigate('/menu/movies/allmovies')
     }
 
+    const getCurrentDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = (`0${today.getMonth() + 1}`).slice(-2); // מוסיף 0 אם החודש הוא חד ספרתי
+        const day = (`0${today.getDate()}`).slice(-2); // מוסיף 0 אם היום הוא חד ספרתי
+        return `${year}-${month}-${day}`;
+    };
+
     return (
         <div>
             <h2>Edit Movies: {formData.name}</h2>
@@ -99,6 +107,7 @@ export default function Editmovie() {
                     <strong>Premiered: </strong>
                     <input
                         style={{ fontSize: '20px', width: "23%" }}
+                        max={getCurrentDate()}
                         type="date"
                         name="premiered"
                         defaultValue={formData.premiered}

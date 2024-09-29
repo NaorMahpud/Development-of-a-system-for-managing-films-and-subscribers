@@ -10,10 +10,6 @@
     {
       "id": "66ec00dc10f9b35b7a5b4778",
       "permissions": [
-        "View Subscriptions",
-        "Create Subscriptions",
-        "Delete Subscriptions",
-        "Update Subscriptions",
         "View Movies",
         "Create Movies",
         "Update Movies"

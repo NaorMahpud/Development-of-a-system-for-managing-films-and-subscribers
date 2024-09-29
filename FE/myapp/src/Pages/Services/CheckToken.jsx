@@ -9,7 +9,7 @@ const checkToken = async (token) => {
         })
         return data
     } catch (error) {
-        return console.error(error)
+        return error
     }
 }
 

@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import LoginPage from "./Pages/LoginPage"
 import CreateAccPage from "./Pages/CreateAccPage"
 import MenuPage from "./Pages/MenuPage"
+import ManageUserPage from "./Pages/Users/ManageUserPage"
 import AllUserPage from "./Pages/Users/AllUserPage"
 import AddUserPage from "./Pages/Users/AddUserPage"
-import ManageUserPage from "./Pages/Users/ManageUserPage"
 import EditUser from "./Pages/Users/EditUser"
 import MoviesPage from "./Pages/Movies/MoviesPage"
 import AllMovies from "./Pages/Movies/AllMoviesPage"
@@ -15,9 +15,19 @@ import SubscriptionsPage from "./Pages/Subscriptions/SubscriptionsPage"
 import AllMemberPage from "./Pages/Subscriptions/AllMemberPage"
 import AddMemberPage from "./Pages/Subscriptions/AddMemberPage"
 import EditMember from "./Pages/Subscriptions/EditMember"
+import withAuth from "./WithAuth"
 
+const AllUsersPageWithAuth = withAuth(AllUserPage)
+const AddUsersPageWithAuth = withAuth(AddUserPage)
+const EditUsersPageWithAuth = withAuth(EditUser)
 
+const AllMoviePageWithAuth = withAuth(AllMovies)
+const AddMoviePageWithAuth = withAuth(AddMoviePage)
+const EditMoviePageWithAuth = withAuth(Editmovie)
 
+const AllMemberPageWithAuth = withAuth(AllMemberPage)
+const AddMemberPageWithAuth = withAuth(AddMemberPage)
+const EditMemberPageWithAuth = withAuth(EditMember)
 
 function App() {
 
@@ -32,33 +42,33 @@ function App() {
           <Route path="/menu" element={<MenuPage />}>
 
             <Route path="users" element={<ManageUserPage />}>
-              <Route path="allusers" element={<AllUserPage />} />
-              <Route path="adduser" element={<AddUserPage />} />
+              <Route path="allusers" element={<AllUsersPageWithAuth />} />
+              <Route path="adduser" element={<AddUsersPageWithAuth />} />
               <Route path="edituser" >
-                <Route path=":id" element={<EditUser />} />
+                <Route path=":id" element={<EditUsersPageWithAuth />} />
               </Route>
             </Route>
 
             <Route path="movies" element={<MoviesPage />}>
-              <Route path="allmovies" element={<AllMovies />} />
-              <Route path="addmovie" element={<AddMoviePage />} />
+              <Route path="allmovies" element={<AllMoviePageWithAuth />} />
+              <Route path="addmovie" element={<AddMoviePageWithAuth />} />
               <Route path="editmovie">
-                <Route path=":id" element={<Editmovie />} />
+                <Route path=":id" element={<EditMoviePageWithAuth />} />
               </Route>
             </Route>
 
             <Route path="subscriptions" element={<SubscriptionsPage />} >
-              <Route path="allmembers" element={<AllMemberPage />} />
-              <Route path="addmember" element={<AddMemberPage />} />
+              <Route path="allmembers" element={<AllMemberPageWithAuth />} />
+              <Route path="addmember" element={<AddMemberPageWithAuth />} />
               <Route path="editmember">
-                <Route path=":id" element={<EditMember />} />
+                <Route path=":id" element={<EditMemberPageWithAuth />} />
               </Route>
             </Route>
           </Route>
         </Routes>
       </Router>
 
-      
+
       <div style={{ border: "2px solid green", height: "140px" }}><h1 style={{ display: "flex", justifyContent: "center", color: "green" }}>Policy...</h1></div>
 
     </div>
