@@ -20,7 +20,7 @@ export default function CreateAccPage() {
         par.innerText = resp.status
         setTimeout(() => {
             navigate('/')
-        }, 1400)
+        }, 1100)
     }
 
     return (

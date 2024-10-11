@@ -1,19 +1,12 @@
 {
   "permissions": [
     {
-      "id": "66e76844440c8a05d8f0bf59",
+      "id": "6709b7dcf9abfc4abd2ccc61",
       "permissions": [
         "View Subscriptions",
         "Create Subscriptions"
       ]
-    },
-    {
-      "id": "66ec00dc10f9b35b7a5b4778",
-      "permissions": [
-        "View Movies",
-        "Create Movies",
-        "Update Movies"
-      ]
     }
+  
   ]
 }

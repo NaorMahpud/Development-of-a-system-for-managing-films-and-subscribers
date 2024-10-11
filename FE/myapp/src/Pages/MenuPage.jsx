@@ -27,7 +27,7 @@ const Button = styled.button`
 
 export default function MenuPage() {
     const [activeButton, setActiveButton] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); 
+    const [isLoading, setIsLoading] = useState(true);
 
     const store = useSelector((store) => store);
     const navigate = useNavigate();
@@ -42,18 +42,18 @@ export default function MenuPage() {
     const fetchData = async () => {
         try {
             const validation = await checkToken(token);
-            if (validation.status === 'valid' || validation) {
+            if (validation && validation.status === 'valid') {
                 sessionStorage.setItem('role', validation.userData.role);
                 const users = await getAllUsers(token);
                 const movies = await getAllMovies(token);
                 const members = await getAllMembers(token);
                 const subscriptions = await getAllSub(token);
                 dispatch({ type: 'LOAD_DATA', payload: { users, movies, members, subscriptions } });
-                setIsLoading(false); 
+                setIsLoading(false);
             }
         } catch (error) {
             console.log(error);
-            navigate('/'); 
+            navigate('/');
         }
     };
 
